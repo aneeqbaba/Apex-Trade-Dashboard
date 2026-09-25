@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexTrade Crypto Terminal</title>
+  <meta name="description" content="High performance crypto trading terminal with live candlestick chart, orderbook, and trade simulator.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- MAIN TRADING TERMINAL -->
+  <div id="app-container">
+    <!-- Navbar -->
+    <header class="navbar">
+      <div class="brand-badge">
+        <div class="logo-box">▲</div>
+        <span class="brand-title">ApexTrade <span class="tag-badge">PERP DEX</span></span>
+      </div>
+
+      <!-- Ticker stats -->
+      <div class="flex items-center" style="gap:20px; font-size:12px;">
+        <div class="flex items-center" style="gap:8px;">
+          <strong id="nav-symbol" style="color:#fff;">BTC/USDT</strong>
+          <span id="nav-price" class="font-mono tabular-nums" style="font-weight:700; font-size:13px; color:var(--emerald);">$68,420.50</span>
+          <span id="nav-change" class="font-mono tabular-nums" style="font-weight:600; font-size:11px; color:var(--emerald);">+3.42%</span>
+        </div>
+
+        <div class="stat-item">
+          <span>24h High</span>
+          <strong id="nav-high">$69,150.00</strong>
+        </div>
+
+        <div class="stat-item">
+          <span>24h Low</span>
+          <strong id="nav-low">$66,280.00</strong>
+        </div>
+
+        <div class="stat-item">
+          <span>24h Volume</span>
+          <strong id="nav-vol">$2,418.5M</strong>
+        </div>
+      </div>
+
+      <!-- Right controls -->
+      <div class="flex items-center" style="gap:8px;">
+        <!-- Sim Speed -->
+        <div class="sim-pill-group">
+          <button class="btn-speed active" data-speed="1">1x</button>
+          <button class="btn-speed" data-speed="2">2x</button>
+          <button class="btn-speed" data-speed="5">5x</button>
+          <button class="btn-speed" data-speed="0">⏸</button>
+        </div>
+
+        <!-- Sound -->
+        <button id="btn-sound-toggle" class="btn-icon" style="width:auto; padding:0 8px; font-size:11px;">
+          🔇 Muted
+        </button>
+
+        <!-- Simulate Event -->
+        <button id="btn-simulate-event" class="btn-event">
+          ⚡ Simulate Event
+        </button>
+
+        <!-- Event Dropdown -->
+        <div id="event-dropdown" class="event-dropdown hidden">
+          <div class="event-dropdown-header">Market Injections</div>
+          <button id="act-whale-buy" style="color:var(--emerald);">Whale Market Buy (+$50M) 📈</button>
+          <button id="act-whale-dump" style="color:var(--rose);">Whale Flash Dump (-$50M) 📉</button>
+          <button id="act-volatility" style="color:var(--amber);">Macro Volatility Shockwave ⚡</button>
+        </div>
+
+        <div style="height:20px; width:1px; background:var(--border-color); margin:0 4px;"></div>
+
+        <!-- Portfolio Equity -->
+        <div style="text-align:right;">
+          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">Demo Equity</div>
+          <div id="nav-equity" class="font-mono tabular-nums" style="font-weight:700; font-size:12px; color:#fff;">$50,000.00</div>
+        </div>
+
+        <button id="btn-deposit-funds" class="btn-deposit">+ Deposit</button>
+        <button id="btn-reset-portfolio" class="btn-icon" title="Reset Portfolio">↺</button>
+      </div>
+    </header>
+
+    <!-- Main Viewport -->
+    <div class="main-viewport">
+      <!-- 1. Left Sidebar: Market Watchlist -->
+      <aside class="sidebar-markets">
+        <div class="search-box">
+          <input type="text" id="market-search" class="search-input" placeholder="Search markets...">
+          <div class="category-bar">
+            <button class="cat-btn active" data-cat="All">All</button>
+            <button class="cat-btn" data-cat="Layer 1">L1</button>
+            <button class="cat-btn" data-cat="DeFi">DeFi</button>
+            <button class="cat-btn" data-cat="Meme">Meme</button>
+            <button class="cat-btn" data-cat="AI">AI</button>
+          </div>
+        </div>
+
+        <div class="market-headers">
+          <div>Pair</div>
+          <div style="text-align:right;">Price</div>
+          <div style="text-align:right;">24h %</div>
+        </div>
+
+        <div id="market-rows" class="market-list"></div>
+      </aside>
+
+      <!-- 2. Center: Chart & Positions Table -->
+      <section class="center-viewport">
+        <!-- Chart Controls -->
+        <div class="chart-header">
+          <div class="flex items-center" style="gap:8px;">
+            <div class="sim-pill-group">
+              <button class="tf-btn" data-tf="1m">1m</button>
+              <button class="tf-btn active" data-tf="5m">5m</button>
+              <button class="tf-btn" data-tf="15m">15m</button>
+              <button class="tf-btn" data-tf="1h">1h</button>
+              <button class="tf-btn" data-tf="4h">4h</button>
+              <button class="tf-btn" data-tf="1D">1D</button>
+            </div>
+
+            <div class="sim-pill-group">
+              <button id="btn-chart-candle" class="active">🕯️ Candle</button>
+              <button id="btn-chart-line">📈 Line</button>
+            </div>
+
+            <button id="toggle-ema20" class="btn-icon active" style="width:auto; padding:0 6px; font-size:10px; color:var(--amber);">EMA 20</button>
+            <button id="toggle-ema50" class="btn-icon active" style="width:auto; padding:0 6px; font-size:10px; color:var(--cyan);">EMA 50</button>
+          </div>
+          <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace;">Canvas Real-Time Feed</div>
+        </div>
+
+        <!-- Canvas Chart -->
+        <div class="canvas-container">
+          <canvas id="trading-canvas"></canvas>
+        </div>
+
+        <!-- Positions & Orders Panel -->
+        <div class="positions-section">
+          <div class="pos-tabs">
+            <div class="flex items-center" style="gap:6px;">
+              <button class="tab-btn active" data-tab="positions">
+                Positions <span id="pos-count-badge" class="tag-badge" style="padding:0 4px; font-size:9px;">0</span>
+              </button>
+              <button class="tab-btn" data-tab="orders">
+                Open Orders <span id="ord-count-badge" class="tag-badge" style="padding:0 4px; font-size:9px;">0</span>
+              </button>
+              <button class="tab-btn" data-tab="portfolio">
+                Account Overview
+              </button>
+            </div>
+            <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace;">
+              Cross Margin 50x Max
+            </div>
+          </div>
+
+          <div id="positions-content" class="table-responsive"></div>
+        </div>
+      </section>
+
+      <!-- 3. Right: Order Book & Recent Trades -->
+      <aside class="sidebar-book">
+        <!-- Order Book -->
+        <div class="book-half">
+          <div class="book-header">
+            <span>Order Book</span>
+            <span style="font-size:10px; color:var(--text-muted);">Depth</span>
+          </div>
+          <div class="market-headers">
+            <div>Price (USDT)</div>
+            <div style="text-align:right;">Size</div>
+            <div style="text-align:right;">Total</div>
+          </div>
+          <div id="book-asks" style="display:flex; flex-direction:column; justify-content:flex-end; flex:1;"></div>
+          <div class="spread-row">
+            <span id="spread-mark" style="color:var(--emerald);">$68,420.50</span>
+            <span style="font-size:10px; color:var(--text-muted);">Spread <strong id="spread-val" style="color:#fff;">$2.40</strong></span>
+          </div>
+          <div id="book-bids" style="display:flex; flex-direction:column; flex:1;"></div>
+        </div>
+
+        <!-- Recent Trades -->
+        <div class="book-half" style="border-top:1px solid var(--border-color);">
+          <div class="book-header">
+            <span>Recent Trades</span>
+            <span style="font-size:10px; color:var(--text-muted);">Live Ticks</span>
+          </div>
+          <div class="market-headers">
+            <div>Price</div>
+            <div style="text-align:right;">Size</div>
+            <div style="text-align:right;">Time</div>
+          </div>
+          <div id="trades-feed" style="flex:1; overflow-y:auto;"></div>
+        </div>
+      </aside>
+
+      <!-- 4. Far Right: Trade Execution Form -->
+      <aside class="sidebar-trade">
+        <div class="side-toggle">
+          <button id="btn-side-buy" class="side-btn buy active">Buy / Long</button>
+          <button id="btn-side-sell" class="side-btn sell">Sell / Short</button>
+        </div>
+
+        <div class="type-toggle">
+          <button class="type-btn active" data-type="market">Market</button>
+          <button class="type-btn" data-type="limit">Limit</button>
+        </div>
+
+        <form id="trade-form">
+          <div class="form-group">
+            <div class="form-label">
+              <span>Order Price</span>
+              <span>USDT</span>
+            </div>
+            <input type="number" id="input-price" class="form-input font-mono" step="any" disabled>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span>Order Size</span>
+              <span id="unit-size">BTC</span>
+            </div>
+            <input type="number" id="input-size" class="form-input font-mono" step="any" placeholder="0.00">
+          </div>
+
+          <div class="pct-chips">
+            <button type="button" class="pct-btn font-mono" data-pct="25">25%</button>
+            <button type="button" class="pct-btn font-mono" data-pct="50">50%</button>
+            <button type="button" class="pct-btn font-mono" data-pct="75">75%</button>
+            <button type="button" class="pct-btn font-mono" data-pct="100">100%</button>
+          </div>
+
+          <div class="form-group">
+            <div class="form-label">
+              <span>Leverage</span>
+              <strong id="leverage-readout" style="color:var(--emerald); font-family:'JetBrains Mono', monospace;">10x</strong>
+            </div>
+            <input type="range" id="input-leverage" min="1" max="50" value="10" style="width:100%; accent-color:var(--emerald);">
+          </div>
+
+          <div class="order-summary font-mono">
+            <div class="summary-row">
+              <span>Order Value:</span>
+              <strong id="sum-val">$0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Req. Margin:</span>
+              <strong id="sum-margin">$0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Est. Liq Price:</span>
+              <strong id="sum-liq" style="color:var(--amber);">$0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Available Margin:</span>
+              <strong id="sum-avail">$50,000.00</strong>
+            </div>
+          </div>
+
+          <button type="submit" id="btn-order-submit" class="btn-submit-order buy">
+            Open Long BTC
+          </button>
+        </form>
+      </aside>
+    </div>
+
+    <!-- Bottom Ticker -->
+    <div class="news-ticker">
+      <div class="flex items-center" style="gap:8px;">
+        <span style="font-weight:700; color:var(--amber); font-size:10px; text-transform:uppercase;">🔥 Market Wire</span>
+        <span style="color:var(--text-muted); font-size:11px;">Derivatives Open Interest hits new ATH at $38.4B across centralized orderbooks.</span>
+      </div>
+      <div style="font-size:10px; color:var(--text-muted); font-family:'JetBrains Mono', monospace;">
+        Sub-millisecond matching engine active
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
