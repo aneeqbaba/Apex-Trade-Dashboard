@@ -3,284 +3,1261 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ApexTrade Crypto Terminal</title>
-  <meta name="description" content="High performance crypto trading terminal with live candlestick chart, orderbook, and trade simulator.">
+
+  <title>ApexTrade Demo Trading Terminal</title>
+
+  <meta
+    name="description"
+    content="ApexTrade is a simulated cryptocurrency trading terminal for portfolio demonstration and learning. No real funds or transactions."
+  >
+
   <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
 
-  <!-- MAIN TRADING TERMINAL -->
-  <div id="app-container">
-    <!-- Navbar -->
-    <header class="navbar">
+  <!-- =========================================================
+       1. DEMO LANDING SCREEN
+       ========================================================= -->
+
+  <div id="login-screen" class="login-screen">
+
+    <header
+      class="navbar"
+      style="background:transparent; border-color:rgba(255,255,255,0.08);"
+    >
+
       <div class="brand-badge">
         <div class="logo-box">▲</div>
-        <span class="brand-title">ApexTrade <span class="tag-badge">PERP DEX</span></span>
+
+        <span class="brand-title">
+          ApexTrade
+          <span class="tag-badge">DEMO TERMINAL</span>
+        </span>
       </div>
 
-      <!-- Ticker stats -->
-      <div class="flex items-center" style="gap:20px; font-size:12px;">
-        <div class="flex items-center" style="gap:8px;">
-          <strong id="nav-symbol" style="color:#fff;">BTC/USDT</strong>
-          <span id="nav-price" class="font-mono tabular-nums" style="font-weight:700; font-size:13px; color:var(--emerald);">$68,420.50</span>
-          <span id="nav-change" class="font-mono tabular-nums" style="font-weight:600; font-size:11px; color:var(--emerald);">+3.42%</span>
+      <div class="flex items-center" style="gap:12px;">
+
+        <span
+          style="
+            font-size:11px;
+            color:var(--emerald);
+            font-family:'JetBrains Mono', monospace;
+          "
+        >
+          ● Demo Engine Active
+        </span>
+
+        <button
+          id="btn-instant-demo-top"
+          class="btn-deposit"
+          style="padding:4px 10px; font-size:11px;"
+        >
+          Enter Demo
+        </button>
+
+      </div>
+
+    </header>
+
+
+    <!-- Demo Card -->
+
+    <div
+      style="
+        flex:1;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        padding:16px;
+      "
+    >
+
+      <div class="login-card">
+
+        <div style="text-align:center; margin-bottom:20px;">
+
+          <h2
+            style="
+              font-size:22px;
+              font-weight:700;
+              color:#fff;
+              margin-bottom:6px;
+            "
+          >
+            ApexTrade Demo Terminal
+          </h2>
+
+          <p
+            style="
+              font-size:12px;
+              color:var(--text-muted);
+            "
+          >
+            Explore a simulated crypto trading interface with
+            charts, order books, market activity and demo positions.
+          </p>
+
         </div>
+
+
+        <!-- Demo Notice -->
+
+        <div
+          style="
+            background:rgba(16,185,129,0.1);
+            border:1px solid rgba(16,185,129,0.25);
+            border-radius:8px;
+            padding:12px 14px;
+            margin-bottom:20px;
+          "
+        >
+
+          <div
+            style="
+              font-size:12px;
+              color:var(--emerald);
+              font-weight:600;
+              margin-bottom:5px;
+            "
+          >
+            ✓ DEMO ENVIRONMENT
+          </div>
+
+          <div
+            style="
+              font-size:11px;
+              color:var(--text-muted);
+              line-height:1.5;
+            "
+          >
+            This portfolio project uses simulated prices,
+            simulated balances and simulated trades.
+            No real money, accounts or blockchain transactions are used.
+          </div>
+
+        </div>
+
+
+        <!-- Main Demo Button -->
+
+        <button
+          id="btn-1click-demo"
+          class="btn-submit-order buy"
+          style="
+            width:100%;
+            padding:11px;
+            font-size:12px;
+            font-weight:700;
+          "
+        >
+          Enter Demo Terminal →
+        </button>
+
+
+        <!--
+          Kept with the same ID so the existing script.js
+          continues working without throwing a null-reference error.
+          It does NOT connect to a wallet.
+        -->
+
+        <button
+          id="btn-web3-wallet"
+          class="btn-icon"
+          style="
+            width:100%;
+            height:38px;
+            margin-top:10px;
+            font-size:12px;
+            font-weight:600;
+            color:#fff;
+          "
+        >
+          Open Simulated Trading Mode
+        </button>
+
+
+        <!-- Demo Disclaimer -->
+
+        <div
+          style="
+            margin-top:20px;
+            text-align:center;
+            font-size:11px;
+            color:var(--text-muted);
+            border-top:1px solid var(--border-subtle);
+            padding-top:12px;
+            line-height:1.5;
+          "
+        >
+          🛡️ Portfolio demonstration only<br>
+          No real funds · No wallet connection · No real transactions
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Footer -->
+
+    <footer
+      style="
+        height:36px;
+        border-top:1px solid rgba(255,255,255,0.06);
+        padding:0 20px;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        font-size:11px;
+        color:var(--text-muted);
+      "
+    >
+
+      <span>
+        © 2026 ApexTrade Demo
+      </span>
+
+      <span>
+        Simulated Environment
+      </span>
+
+    </footer>
+
+  </div>
+
+
+  <!-- =========================================================
+       2. MAIN DEMO TRADING TERMINAL
+       ========================================================= -->
+
+  <div id="app-container" class="hidden">
+
+    <!-- Navbar -->
+
+    <header class="navbar">
+
+      <div class="brand-badge">
+
+        <div class="logo-box">▲</div>
+
+        <span class="brand-title">
+          ApexTrade
+          <span class="tag-badge">DEMO TERMINAL</span>
+        </span>
+
+      </div>
+
+
+      <!-- Ticker stats -->
+
+      <div
+        class="flex items-center"
+        style="gap:20px; font-size:12px;"
+      >
+
+        <div
+          class="flex items-center"
+          style="gap:8px;"
+        >
+
+          <strong
+            id="nav-symbol"
+            style="color:#fff;"
+          >
+            BTC/USDT
+          </strong>
+
+          <span
+            id="nav-price"
+            class="font-mono tabular-nums"
+            style="
+              font-weight:700;
+              font-size:13px;
+              color:var(--emerald);
+            "
+          >
+            $68,420.50
+          </span>
+
+          <span
+            id="nav-change"
+            class="font-mono tabular-nums"
+            style="
+              font-weight:600;
+              font-size:11px;
+              color:var(--emerald);
+            "
+          >
+            +3.42%
+          </span>
+
+        </div>
+
 
         <div class="stat-item">
           <span>24h High</span>
           <strong id="nav-high">$69,150.00</strong>
         </div>
 
+
         <div class="stat-item">
           <span>24h Low</span>
           <strong id="nav-low">$66,280.00</strong>
         </div>
 
+
         <div class="stat-item">
           <span>24h Volume</span>
           <strong id="nav-vol">$2,418.5M</strong>
         </div>
+
       </div>
 
+
       <!-- Right controls -->
-      <div class="flex items-center" style="gap:8px;">
-        <!-- Sim Speed -->
+
+      <div
+        class="flex items-center"
+        style="gap:8px;"
+      >
+
+        <!-- Simulation Speed -->
+
         <div class="sim-pill-group">
-          <button class="btn-speed active" data-speed="1">1x</button>
-          <button class="btn-speed" data-speed="2">2x</button>
-          <button class="btn-speed" data-speed="5">5x</button>
-          <button class="btn-speed" data-speed="0">⏸</button>
+
+          <button
+            class="btn-speed active"
+            data-speed="1"
+          >
+            1x
+          </button>
+
+          <button
+            class="btn-speed"
+            data-speed="2"
+          >
+            2x
+          </button>
+
+          <button
+            class="btn-speed"
+            data-speed="5"
+          >
+            5x
+          </button>
+
+          <button
+            class="btn-speed"
+            data-speed="0"
+          >
+            ⏸
+          </button>
+
         </div>
 
+
         <!-- Sound -->
-        <button id="btn-sound-toggle" class="btn-icon" style="width:auto; padding:0 8px; font-size:11px;">
+
+        <button
+          id="btn-sound-toggle"
+          class="btn-icon"
+          style="
+            width:auto;
+            padding:0 8px;
+            font-size:11px;
+          "
+        >
           🔇 Muted
         </button>
 
+
         <!-- Simulate Event -->
-        <button id="btn-simulate-event" class="btn-event">
+
+        <button
+          id="btn-simulate-event"
+          class="btn-event"
+        >
           ⚡ Simulate Event
         </button>
 
+
         <!-- Event Dropdown -->
-        <div id="event-dropdown" class="event-dropdown hidden">
-          <div class="event-dropdown-header">Market Injections</div>
-          <button id="act-whale-buy" style="color:var(--emerald);">Whale Market Buy (+$50M) 📈</button>
-          <button id="act-whale-dump" style="color:var(--rose);">Whale Flash Dump (-$50M) 📉</button>
-          <button id="act-volatility" style="color:var(--amber);">Macro Volatility Shockwave ⚡</button>
+
+        <div
+          id="event-dropdown"
+          class="event-dropdown hidden"
+        >
+
+          <div class="event-dropdown-header">
+            Simulated Market Events
+          </div>
+
+          <button
+            id="act-whale-buy"
+            style="color:var(--emerald);"
+          >
+            Simulated Large Buy (+$50M) 📈
+          </button>
+
+          <button
+            id="act-whale-dump"
+            style="color:var(--rose);"
+          >
+            Simulated Large Sell (-$50M) 📉
+          </button>
+
+          <button
+            id="act-volatility"
+            style="color:var(--amber);"
+          >
+            Simulated Volatility Shock ⚡
+          </button>
+
         </div>
 
-        <div style="height:20px; width:1px; background:var(--border-color); margin:0 4px;"></div>
 
-        <!-- Portfolio Equity -->
+        <div
+          style="
+            height:20px;
+            width:1px;
+            background:var(--border-color);
+            margin:0 4px;
+          "
+        ></div>
+
+
+        <!-- Demo Equity -->
+
         <div style="text-align:right;">
-          <div style="font-size:10px; color:var(--text-muted); text-transform:uppercase;">Demo Equity</div>
-          <div id="nav-equity" class="font-mono tabular-nums" style="font-weight:700; font-size:12px; color:#fff;">$50,000.00</div>
+
+          <div
+            style="
+              font-size:10px;
+              color:var(--text-muted);
+              text-transform:uppercase;
+            "
+          >
+            Demo Equity
+          </div>
+
+          <div
+            id="nav-equity"
+            class="font-mono tabular-nums"
+            style="
+              font-weight:700;
+              font-size:12px;
+              color:#fff;
+            "
+          >
+            $50,000.00
+          </div>
+
         </div>
 
-        <button id="btn-deposit-funds" class="btn-deposit">+ Deposit</button>
-        <button id="btn-reset-portfolio" class="btn-icon" title="Reset Portfolio">↺</button>
+
+        <!-- Demo Funds -->
+
+        <button
+          id="btn-deposit-funds"
+          class="btn-deposit"
+        >
+          + Add Demo Funds
+        </button>
+
+
+        <!-- Reset -->
+
+        <button
+          id="btn-reset-portfolio"
+          class="btn-icon"
+          title="Reset Demo Portfolio"
+        >
+          ↺
+        </button>
+
+
+        <!-- Exit Demo -->
+
+        <button
+          id="btn-logout"
+          class="btn-icon"
+          style="
+            color:var(--rose);
+            font-size:11px;
+            width:auto;
+            padding:0 8px;
+          "
+          title="Exit Demo"
+        >
+          Exit Demo
+        </button>
+
       </div>
+
     </header>
 
-    <!-- Main Viewport -->
+
+    <!-- =====================================================
+         MAIN VIEWPORT
+         ===================================================== -->
+
     <div class="main-viewport">
-      <!-- 1. Left Sidebar: Market Watchlist -->
+
+
+      <!-- 1. Market Watchlist -->
+
       <aside class="sidebar-markets">
+
         <div class="search-box">
-          <input type="text" id="market-search" class="search-input" placeholder="Search markets...">
+
+          <input
+            type="text"
+            id="market-search"
+            class="search-input"
+            placeholder="Search demo markets..."
+          >
+
           <div class="category-bar">
-            <button class="cat-btn active" data-cat="All">All</button>
-            <button class="cat-btn" data-cat="Layer 1">L1</button>
-            <button class="cat-btn" data-cat="DeFi">DeFi</button>
-            <button class="cat-btn" data-cat="Meme">Meme</button>
-            <button class="cat-btn" data-cat="AI">AI</button>
+
+            <button
+              class="cat-btn active"
+              data-cat="All"
+            >
+              All
+            </button>
+
+            <button
+              class="cat-btn"
+              data-cat="Layer 1"
+            >
+              L1
+            </button>
+
+            <button
+              class="cat-btn"
+              data-cat="DeFi"
+            >
+              DeFi
+            </button>
+
+            <button
+              class="cat-btn"
+              data-cat="Meme"
+            >
+              Meme
+            </button>
+
+            <button
+              class="cat-btn"
+              data-cat="AI"
+            >
+              AI
+            </button>
+
           </div>
+
         </div>
+
 
         <div class="market-headers">
+
           <div>Pair</div>
-          <div style="text-align:right;">Price</div>
-          <div style="text-align:right;">24h %</div>
+
+          <div style="text-align:right;">
+            Price
+          </div>
+
+          <div style="text-align:right;">
+            24h %
+          </div>
+
         </div>
 
-        <div id="market-rows" class="market-list"></div>
+
+        <div
+          id="market-rows"
+          class="market-list"
+        ></div>
+
       </aside>
 
-      <!-- 2. Center: Chart & Positions Table -->
+
+      <!-- =====================================================
+           2. CENTER: CHART & POSITIONS
+           ===================================================== -->
+
       <section class="center-viewport">
+
+
         <!-- Chart Controls -->
+
         <div class="chart-header">
-          <div class="flex items-center" style="gap:8px;">
-            <div class="sim-pill-group">
-              <button class="tf-btn" data-tf="1m">1m</button>
-              <button class="tf-btn active" data-tf="5m">5m</button>
-              <button class="tf-btn" data-tf="15m">15m</button>
-              <button class="tf-btn" data-tf="1h">1h</button>
-              <button class="tf-btn" data-tf="4h">4h</button>
-              <button class="tf-btn" data-tf="1D">1D</button>
-            </div>
+
+          <div
+            class="flex items-center"
+            style="gap:8px;"
+          >
 
             <div class="sim-pill-group">
-              <button id="btn-chart-candle" class="active">🕯️ Candle</button>
-              <button id="btn-chart-line">📈 Line</button>
+
+              <button
+                class="tf-btn"
+                data-tf="1m"
+              >
+                1m
+              </button>
+
+              <button
+                class="tf-btn active"
+                data-tf="5m"
+              >
+                5m
+              </button>
+
+              <button
+                class="tf-btn"
+                data-tf="15m"
+              >
+                15m
+              </button>
+
+              <button
+                class="tf-btn"
+                data-tf="1h"
+              >
+                1h
+              </button>
+
+              <button
+                class="tf-btn"
+                data-tf="4h"
+              >
+                4h
+              </button>
+
+              <button
+                class="tf-btn"
+                data-tf="1D"
+              >
+                1D
+              </button>
+
             </div>
 
-            <button id="toggle-ema20" class="btn-icon active" style="width:auto; padding:0 6px; font-size:10px; color:var(--amber);">EMA 20</button>
-            <button id="toggle-ema50" class="btn-icon active" style="width:auto; padding:0 6px; font-size:10px; color:var(--cyan);">EMA 50</button>
+
+            <div class="sim-pill-group">
+
+              <button
+                id="btn-chart-candle"
+                class="active"
+              >
+                🕯️ Candle
+              </button>
+
+              <button
+                id="btn-chart-line"
+              >
+                📈 Line
+              </button>
+
+            </div>
+
+
+            <button
+              id="toggle-ema20"
+              class="btn-icon active"
+              style="
+                width:auto;
+                padding:0 6px;
+                font-size:10px;
+                color:var(--amber);
+              "
+            >
+              EMA 20
+            </button>
+
+
+            <button
+              id="toggle-ema50"
+              class="btn-icon active"
+              style="
+                width:auto;
+                padding:0 6px;
+                font-size:10px;
+                color:var(--cyan);
+              "
+            >
+              EMA 50
+            </button>
+
           </div>
-          <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace;">Canvas Real-Time Feed</div>
+
+
+          <div
+            style="
+              font-size:11px;
+              color:var(--text-muted);
+              font-family:'JetBrains Mono', monospace;
+            "
+          >
+            Simulated Market Feed
+          </div>
+
         </div>
+
 
         <!-- Canvas Chart -->
+
         <div class="canvas-container">
+
           <canvas id="trading-canvas"></canvas>
+
         </div>
 
-        <!-- Positions & Orders Panel -->
+
+        <!-- Positions & Orders -->
+
         <div class="positions-section">
+
           <div class="pos-tabs">
-            <div class="flex items-center" style="gap:6px;">
-              <button class="tab-btn active" data-tab="positions">
-                Positions <span id="pos-count-badge" class="tag-badge" style="padding:0 4px; font-size:9px;">0</span>
+
+            <div
+              class="flex items-center"
+              style="gap:6px;"
+            >
+
+              <button
+                class="tab-btn active"
+                data-tab="positions"
+              >
+                Positions
+
+                <span
+                  id="pos-count-badge"
+                  class="tag-badge"
+                  style="
+                    padding:0 4px;
+                    font-size:9px;
+                  "
+                >
+                  0
+                </span>
+
               </button>
-              <button class="tab-btn" data-tab="orders">
-                Open Orders <span id="ord-count-badge" class="tag-badge" style="padding:0 4px; font-size:9px;">0</span>
+
+
+              <button
+                class="tab-btn"
+                data-tab="orders"
+              >
+                Open Orders
+
+                <span
+                  id="ord-count-badge"
+                  class="tag-badge"
+                  style="
+                    padding:0 4px;
+                    font-size:9px;
+                  "
+                >
+                  0
+                </span>
+
               </button>
-              <button class="tab-btn" data-tab="portfolio">
-                Account Overview
+
+
+              <button
+                class="tab-btn"
+                data-tab="portfolio"
+              >
+                Demo Account Overview
               </button>
+
             </div>
-            <div style="font-size:11px; color:var(--text-muted); font-family:'JetBrains Mono', monospace;">
-              Cross Margin 50x Max
+
+
+            <div
+              style="
+                font-size:11px;
+                color:var(--text-muted);
+                font-family:'JetBrains Mono', monospace;
+              "
+            >
+              Simulated Margin · 50x Max
             </div>
+
           </div>
 
-          <div id="positions-content" class="table-responsive"></div>
+
+          <div
+            id="positions-content"
+            class="table-responsive"
+          ></div>
+
         </div>
+
       </section>
 
-      <!-- 3. Right: Order Book & Recent Trades -->
+
+      <!-- =====================================================
+           3. ORDER BOOK & RECENT TRADES
+           ===================================================== -->
+
       <aside class="sidebar-book">
+
+
         <!-- Order Book -->
+
         <div class="book-half">
+
           <div class="book-header">
-            <span>Order Book</span>
-            <span style="font-size:10px; color:var(--text-muted);">Depth</span>
+
+            <span>
+              Simulated Order Book
+            </span>
+
+            <span
+              style="
+                font-size:10px;
+                color:var(--text-muted);
+              "
+            >
+              Depth
+            </span>
+
           </div>
+
+
           <div class="market-headers">
-            <div>Price (USDT)</div>
-            <div style="text-align:right;">Size</div>
-            <div style="text-align:right;">Total</div>
+
+            <div>
+              Price (USDT)
+            </div>
+
+            <div style="text-align:right;">
+              Size
+            </div>
+
+            <div style="text-align:right;">
+              Total
+            </div>
+
           </div>
-          <div id="book-asks" style="display:flex; flex-direction:column; justify-content:flex-end; flex:1;"></div>
+
+
+          <div
+            id="book-asks"
+            style="
+              display:flex;
+              flex-direction:column;
+              justify-content:flex-end;
+              flex:1;
+            "
+          ></div>
+
+
           <div class="spread-row">
-            <span id="spread-mark" style="color:var(--emerald);">$68,420.50</span>
-            <span style="font-size:10px; color:var(--text-muted);">Spread <strong id="spread-val" style="color:#fff;">$2.40</strong></span>
+
+            <span
+              id="spread-mark"
+              style="color:var(--emerald);"
+            >
+              $68,420.50
+            </span>
+
+            <span
+              style="
+                font-size:10px;
+                color:var(--text-muted);
+              "
+            >
+              Spread
+
+              <strong
+                id="spread-val"
+                style="color:#fff;"
+              >
+                $2.40
+              </strong>
+
+            </span>
+
           </div>
-          <div id="book-bids" style="display:flex; flex-direction:column; flex:1;"></div>
+
+
+          <div
+            id="book-bids"
+            style="
+              display:flex;
+              flex-direction:column;
+              flex:1;
+            "
+          ></div>
+
         </div>
+
 
         <!-- Recent Trades -->
-        <div class="book-half" style="border-top:1px solid var(--border-color);">
+
+        <div
+          class="book-half"
+          style="
+            border-top:1px solid var(--border-color);
+          "
+        >
+
           <div class="book-header">
-            <span>Recent Trades</span>
-            <span style="font-size:10px; color:var(--text-muted);">Live Ticks</span>
+
+            <span>
+              Simulated Trades
+            </span>
+
+            <span
+              style="
+                font-size:10px;
+                color:var(--text-muted);
+              "
+            >
+              Demo Ticks
+            </span>
+
           </div>
+
+
           <div class="market-headers">
-            <div>Price</div>
-            <div style="text-align:right;">Size</div>
-            <div style="text-align:right;">Time</div>
+
+            <div>
+              Price
+            </div>
+
+            <div style="text-align:right;">
+              Size
+            </div>
+
+            <div style="text-align:right;">
+              Time
+            </div>
+
           </div>
-          <div id="trades-feed" style="flex:1; overflow-y:auto;"></div>
+
+
+          <div
+            id="trades-feed"
+            style="
+              flex:1;
+              overflow-y:auto;
+            "
+          ></div>
+
         </div>
+
       </aside>
 
-      <!-- 4. Far Right: Trade Execution Form -->
+
+      <!-- =====================================================
+           4. DEMO TRADE EXECUTION
+           ===================================================== -->
+
       <aside class="sidebar-trade">
+
         <div class="side-toggle">
-          <button id="btn-side-buy" class="side-btn buy active">Buy / Long</button>
-          <button id="btn-side-sell" class="side-btn sell">Sell / Short</button>
+
+          <button
+            id="btn-side-buy"
+            class="side-btn buy active"
+          >
+            Buy / Long
+          </button>
+
+          <button
+            id="btn-side-sell"
+            class="side-btn sell"
+          >
+            Sell / Short
+          </button>
+
         </div>
+
 
         <div class="type-toggle">
-          <button class="type-btn active" data-type="market">Market</button>
-          <button class="type-btn" data-type="limit">Limit</button>
+
+          <button
+            class="type-btn active"
+            data-type="market"
+          >
+            Market
+          </button>
+
+          <button
+            class="type-btn"
+            data-type="limit"
+          >
+            Limit
+          </button>
+
         </div>
 
+
         <form id="trade-form">
-          <div class="form-group">
-            <div class="form-label">
-              <span>Order Price</span>
-              <span>USDT</span>
-            </div>
-            <input type="number" id="input-price" class="form-input font-mono" step="any" disabled>
-          </div>
 
           <div class="form-group">
+
             <div class="form-label">
-              <span>Order Size</span>
-              <span id="unit-size">BTC</span>
+
+              <span>
+                Order Price
+              </span>
+
+              <span>
+                USDT
+              </span>
+
             </div>
-            <input type="number" id="input-size" class="form-input font-mono" step="any" placeholder="0.00">
+
+            <input
+              type="number"
+              id="input-price"
+              class="form-input font-mono"
+              step="any"
+              disabled
+            >
+
           </div>
+
+
+          <div class="form-group">
+
+            <div class="form-label">
+
+              <span>
+                Demo Order Size
+              </span>
+
+              <span id="unit-size">
+                BTC
+              </span>
+
+            </div>
+
+            <input
+              type="number"
+              id="input-size"
+              class="form-input font-mono"
+              step="any"
+              placeholder="0.00"
+            >
+
+          </div>
+
 
           <div class="pct-chips">
-            <button type="button" class="pct-btn font-mono" data-pct="25">25%</button>
-            <button type="button" class="pct-btn font-mono" data-pct="50">50%</button>
-            <button type="button" class="pct-btn font-mono" data-pct="75">75%</button>
-            <button type="button" class="pct-btn font-mono" data-pct="100">100%</button>
+
+            <button
+              type="button"
+              class="pct-btn font-mono"
+              data-pct="25"
+            >
+              25%
+            </button>
+
+            <button
+              type="button"
+              class="pct-btn font-mono"
+              data-pct="50"
+            >
+              50%
+            </button>
+
+            <button
+              type="button"
+              class="pct-btn font-mono"
+              data-pct="75"
+            >
+              75%
+            </button>
+
+            <button
+              type="button"
+              class="pct-btn font-mono"
+              data-pct="100"
+            >
+              100%
+            </button>
+
           </div>
+
 
           <div class="form-group">
+
             <div class="form-label">
-              <span>Leverage</span>
-              <strong id="leverage-readout" style="color:var(--emerald); font-family:'JetBrains Mono', monospace;">10x</strong>
+
+              <span>
+                Simulated Leverage
+              </span>
+
+              <strong
+                id="leverage-readout"
+                style="
+                  color:var(--emerald);
+                  font-family:'JetBrains Mono', monospace;
+                "
+              >
+                10x
+              </strong>
+
             </div>
-            <input type="range" id="input-leverage" min="1" max="50" value="10" style="width:100%; accent-color:var(--emerald);">
+
+            <input
+              type="range"
+              id="input-leverage"
+              min="1"
+              max="50"
+              value="10"
+              style="
+                width:100%;
+                accent-color:var(--emerald);
+              "
+            >
+
           </div>
+
 
           <div class="order-summary font-mono">
+
             <div class="summary-row">
-              <span>Order Value:</span>
-              <strong id="sum-val">$0.00</strong>
+
+              <span>
+                Simulated Order Value:
+              </span>
+
+              <strong id="sum-val">
+                $0.00
+              </strong>
+
             </div>
+
+
             <div class="summary-row">
-              <span>Req. Margin:</span>
-              <strong id="sum-margin">$0.00</strong>
+
+              <span>
+                Required Demo Margin:
+              </span>
+
+              <strong id="sum-margin">
+                $0.00
+              </strong>
+
             </div>
+
+
             <div class="summary-row">
-              <span>Est. Liq Price:</span>
-              <strong id="sum-liq" style="color:var(--amber);">$0.00</strong>
+
+              <span>
+                Estimated Demo Liq. Price:
+              </span>
+
+              <strong
+                id="sum-liq"
+                style="color:var(--amber);"
+              >
+                $0.00
+              </strong>
+
             </div>
+
+
             <div class="summary-row">
-              <span>Available Margin:</span>
-              <strong id="sum-avail">$50,000.00</strong>
+
+              <span>
+                Available Demo Margin:
+              </span>
+
+              <strong id="sum-avail">
+                $50,000.00
+              </strong>
+
             </div>
+
           </div>
 
-          <button type="submit" id="btn-order-submit" class="btn-submit-order buy">
-            Open Long BTC
+
+          <button
+            type="submit"
+            id="btn-order-submit"
+            class="btn-submit-order buy"
+          >
+            Open Demo Long BTC
           </button>
+
         </form>
+
       </aside>
+
     </div>
 
-    <!-- Bottom Ticker -->
+
+    <!-- =====================================================
+         BOTTOM TICKER
+         ===================================================== -->
+
     <div class="news-ticker">
-      <div class="flex items-center" style="gap:8px;">
-        <span style="font-weight:700; color:var(--amber); font-size:10px; text-transform:uppercase;">🔥 Market Wire</span>
-        <span style="color:var(--text-muted); font-size:11px;">Derivatives Open Interest hits new ATH at $38.4B across centralized orderbooks.</span>
+
+      <div
+        class="flex items-center"
+        style="gap:8px;"
+      >
+
+        <span
+          style="
+            font-weight:700;
+            color:var(--amber);
+            font-size:10px;
+            text-transform:uppercase;
+          "
+        >
+          DEMO MARKET
+        </span>
+
+        <span
+          style="
+            color:var(--text-muted);
+            font-size:11px;
+          "
+        >
+          All prices, orders and positions shown in this terminal
+          are simulated for demonstration purposes.
+        </span>
+
       </div>
-      <div style="font-size:10px; color:var(--text-muted); font-family:'JetBrains Mono', monospace;">
-        Sub-millisecond matching engine active
+
+
+      <div
+        style="
+          font-size:10px;
+          color:var(--text-muted);
+          font-family:'JetBrains Mono', monospace;
+        "
+      >
+        Simulation Engine Active
       </div>
+
     </div>
+
   </div>
 
+
   <!-- Toast Container -->
-  <div id="toast-container" class="toast-container"></div>
+
+  <div
+    id="toast-container"
+    class="toast-container"
+  ></div>
+
+
+  <!-- JavaScript -->
 
   <script src="script.js"></script>
+
 </body>
 </html>
